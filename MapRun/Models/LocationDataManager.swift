@@ -29,7 +29,7 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
     }
     
     func requestPermission() {
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
     }
     
     // handler for user authorisation for access to location data

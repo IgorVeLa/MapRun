@@ -11,12 +11,15 @@ import CoreLocation
 
 struct ContentView: View {
     @Environment(LocationDataManager.self) var locationDataManager
+    @Environment(\.managedObjectContext) var context
+    
     @State var position: MapCameraPosition = .userLocation(fallback: .automatic)
     
-    @State var isShowingPolyLine = false
     @State var isRunning = false
+    @State var isShowingPolyLine = false
     @State var isShowingStopwatch = false
     @State var isShowingSaveSheet = false
+    @State var isShowingHistorySheet = false
     
     @State var stopwatchSecond = 0
     @State var stopwatchMinute = 0
@@ -44,8 +47,6 @@ struct ContentView: View {
                     MapUserLocationButton()
                 }
                 
-                
-                
                 HStack {
                     VStack {
                         Button {
@@ -64,20 +65,13 @@ struct ContentView: View {
                                 pace = locationDataManager.measurePace(locations: locationDataManager.locations, totalTime: locationDataManager.totalTimeInS)
                                 
                                 // store run details
-                                currentRun = Run(title: "",
-                                          locations: locationDataManager.locations,
-                                          time: locationDataManager.totalTimeInS,
-                                          distance: locationDataManager.measureTotalDistanceInKm(locations: locationDataManager.locations),
-                                          pace: locationDataManager.currentPace,
-                                          speed: locationDataManager.currentSpeed,
-                                          routeLine: locationDataManager.drawRoute(locations: locationDataManager.locations))
-                                
-                                // clear time
-                                locationDataManager.totalTimeInS = 0
-                                stopwatchSecond = 0
-                                stopwatchMinute = 0
-                                stopwatchHour = 0
-                                print("time reset")
+                                currentRun = Run(context: context)
+                                currentRun?.title = ""
+                                currentRun?.time = locationDataManager.totalTimeInS
+                                currentRun?.distance = locationDataManager.currentDist
+                                currentRun?.speed = locationDataManager.currentSpeed
+                                currentRun?.pace = locationDataManager.currentPace
+                                currentRun?.dateAdded = Date.now
                                 
                                 isShowingSaveSheet.toggle()
                             } else {
@@ -94,13 +88,14 @@ struct ContentView: View {
                             Image(systemName: isRunning ? "flag.checkered.circle.fill" : "play.circle.fill")
                                 .font(.title)
                         }
-                        .sheet(isPresented: $isShowingSaveSheet) {
+                        .sheet(isPresented: $isShowingSaveSheet, onDismiss: resetData) {
                             if let currentRun = currentRun {
-                                SaveRun(run: currentRun)
+                                SaveRun(run: currentRun, locations: locationDataManager.locations)
                                     .presentationDetents([.medium, .large])
                                     .presentationDragIndicator(.hidden)
                             }
                         }
+
                         
                         if isShowingStopwatch {
                             Text("\(String(format: "%02d", stopwatchHour)):\(String(format: "%02d", stopwatchMinute)):\(String(format: "%02d", stopwatchSecond))")
@@ -132,9 +127,30 @@ struct ContentView: View {
                         }
                     }
                     .padding(.horizontal)
+                    
+                    Button {
+                        isShowingHistorySheet.toggle()
+                    } label: {
+                        Image(systemName: "list.bullet.clipboard.fill")
+                    }
+                    .sheet(isPresented: $isShowingHistorySheet) {
+                        HistoryView()
+                    }
                 }
             }
         }
+    }
+    
+    func resetData() {
+        locationDataManager.locations = []
+        locationDataManager.totalTimeInS = 0
+        locationDataManager.currentPace = [0, 0]
+        locationDataManager.currentSpeed = 0
+        locationDataManager.currentDist = 0
+        stopwatchSecond = 0
+        stopwatchMinute = 0
+        stopwatchHour = 0
+        print("data reset")
     }
 }
 
