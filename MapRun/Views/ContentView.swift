@@ -12,6 +12,7 @@ import CoreLocation
 struct ContentView: View {
     @Environment(LocationDataManager.self) var locationDataManager
     @Environment(\.managedObjectContext) var context
+    @Environment(\.scenePhase) var scenePhase
     
     @State var position: MapCameraPosition = .userLocation(fallback: .automatic)
     
@@ -24,6 +25,7 @@ struct ContentView: View {
     @State var stopwatchSecond = 0
     @State var stopwatchMinute = 0
     @State var stopwatchHour = 0
+    @State var dateExiting: Date?
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State var totalDistance = 0.0
@@ -102,16 +104,25 @@ struct ContentView: View {
                                 .onReceive(timer, perform: { _ in
                                     locationDataManager.totalTimeInS += 1
                                     
-                                    stopwatchSecond += 1
-                                    if stopwatchSecond == 60 {
-                                        stopwatchMinute += 1
-                                        stopwatchSecond = 0
-                                    }
-                                    if stopwatchMinute == 60 {
-                                        stopwatchHour += 1
-                                        stopwatchMinute = 0
-                                    }
+                                    stopwatchHour = Int(locationDataManager.totalTimeInS / 3600)
+                                    stopwatchMinute = Int(locationDataManager.totalTimeInS / 60) % 60
+                                    stopwatchSecond = Int(locationDataManager.totalTimeInS) % 60
                                 })
+                                // update stopwatch if user is in background by calculating difference
+                                .onChange(of: scenePhase) { oldPhase, newPhase in
+                                    if newPhase == .background {
+                                        print("background")
+                                        dateExiting = Date()
+                                    } else if newPhase == .active {
+                                        var currentCalendar = Calendar.current
+                                        
+                                        if let dateExiting {
+                                            var difference = currentCalendar.dateComponents([.second], from: dateExiting, to: Date())
+                                            
+                                            locationDataManager.totalTimeInS += Double(difference.second!)
+                                        }
+                                    }
+                                }
                         }
                     }
                     
