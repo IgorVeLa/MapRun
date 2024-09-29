@@ -44,5 +44,11 @@ extension Run {
 }
 
 extension Run : Identifiable {
-
+    static func noPendingChangesRequest() -> NSFetchRequest<Run> {
+            let request = Run.fetchRequest()
+            request.includesPendingChanges = false
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \Run.dateAdded, ascending: false)]
+        
+            return request
+        }
 }

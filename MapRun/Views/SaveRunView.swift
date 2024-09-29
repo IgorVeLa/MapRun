@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import _MapKit_SwiftUI
 
-struct SaveRun: View {
+struct SaveRunView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var context
     @Environment(LocationDataManager.self) var locationDataManager

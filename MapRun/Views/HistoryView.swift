@@ -5,16 +5,16 @@
 //  Created by Igor L on 27/09/2024.
 //
 
+import CoreData
 import Foundation
 import _MapKit_SwiftUI
 import SwiftUI
 
 struct HistoryView: View {
     @Environment(\.managedObjectContext) var context
-    
+
     @FetchRequest(
-            entity: Run.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Run.title, ascending: false)]
+            fetchRequest: Run.noPendingChangesRequest()
         ) var runs: FetchedResults<Run>
     
     var body: some View {
@@ -38,11 +38,7 @@ struct HistoryView: View {
                     Text(String(format: "%d:%02d /km", run.pace?[0] ?? "err", run.pace?[1] ?? "err"))
                 }
                 .padding(.horizontal)
-                
             }
-        }
-        .onAppear {
-            print(runs)
         }
     }
     

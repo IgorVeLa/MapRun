@@ -92,7 +92,7 @@ struct ContentView: View {
                         }
                         .sheet(isPresented: $isShowingSaveSheet, onDismiss: resetData) {
                             if let currentRun = currentRun {
-                                SaveRun(run: currentRun, locations: locationDataManager.locations)
+                                SaveRunView(run: currentRun, locations: locationDataManager.locations)
                                     .presentationDetents([.medium, .large])
                                     .presentationDragIndicator(.hidden)
                             }
@@ -114,10 +114,10 @@ struct ContentView: View {
                                         print("background")
                                         dateExiting = Date()
                                     } else if newPhase == .active {
-                                        var currentCalendar = Calendar.current
+                                        let currentCalendar = Calendar.current
                                         
                                         if let dateExiting {
-                                            var difference = currentCalendar.dateComponents([.second], from: dateExiting, to: Date())
+                                            let difference = currentCalendar.dateComponents([.second], from: dateExiting, to: Date())
                                             
                                             locationDataManager.totalTimeInS += Double(difference.second!)
                                         }
@@ -161,6 +161,7 @@ struct ContentView: View {
         stopwatchSecond = 0
         stopwatchMinute = 0
         stopwatchHour = 0
+        
         print("data reset")
     }
 }
