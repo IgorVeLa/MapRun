@@ -27,7 +27,7 @@ extension LocationPoint {
     }
 }
 
-extension LocationPoint : Identifiable {
+extension LocationPoint : Identifiable, Comparable {
     func cllocation() -> CLLocation {
         return CLLocation(
             latitude: self.latitude,
@@ -38,5 +38,9 @@ extension LocationPoint : Identifiable {
         return CLLocationCoordinate2D(
             latitude: self.latitude,
             longitude: self.longitude)
+    }
+    
+    public static func <(lhs: LocationPoint, rhs: LocationPoint) -> Bool {
+        return lhs.orderId < rhs.orderId
     }
 }

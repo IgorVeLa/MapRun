@@ -44,7 +44,10 @@ struct HistoryView: View {
     
     func createRoute(run: Run) -> MapPolyline {
         var coords = [CLLocationCoordinate2D]()
-        for location in run.locations! as! Set<LocationPoint> {
+        
+        let locationsArr = run.locations!.allObjects as! [LocationPoint]
+        
+        for location in locationsArr.sorted() {
             coords.append(location.cllocationcoord())
         }
         
