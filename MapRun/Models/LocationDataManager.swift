@@ -11,6 +11,8 @@ import _MapKit_SwiftUI
 
 @Observable
 class LocationDataManager: NSObject, CLLocationManagerDelegate {
+    // singleton
+    static let shared = LocationDataManager()
     
     var locationManager = CLLocationManager()
     var authorisationStatus: CLAuthorizationStatus?
@@ -91,7 +93,10 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error: \(error.localizedDescription)")
     }
-    
+}
+
+// methods for calculating statistics
+extension LocationDataManager {
     // draw route
     func drawRoute(locations: [CLLocation]) -> MapPolyline {
         guard locations.last != nil else {
@@ -99,11 +104,7 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
             return MapPolyline(coordinates: [])
         }
         // convert to CLLocationCoordinate2D
-        var coordinates = [CLLocationCoordinate2D]()
-        for location in locations {
-            //print(location)
-            coordinates.append(location.coordinate)
-        }
+        let coordinates = toCLLCoordinates(locations: locations)
         
         // create MapPolyLine
         let routeLine = MapPolyline(coordinates: coordinates, contourStyle: .straight)
@@ -170,5 +171,27 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         let seconds = Int((paceInMins - Double(minutes)) * 60)
         
         return [minutes, seconds]
+    }
+    
+    func toCLLCoordinates(locations: [CLLocation]) -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        
+        for location in locations {
+            //print(location)
+            coordinates.append(location.coordinate)
+        }
+        
+        return coordinates
+    }
+    
+    func toCLLocations(coords: [CLLocationCoordinate2D]) -> [CLLocation] {
+        var locations = [CLLocation]()
+        
+        for coord in coords {
+            //print(location)
+            locations.append(CLLocation(latitude: coord.latitude, longitude: coord.longitude))
+        }
+        
+        return locations
     }
 }

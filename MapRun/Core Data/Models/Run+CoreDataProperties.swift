@@ -11,7 +11,6 @@ import CoreData
 
 
 extension Run {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Run> {
         return NSFetchRequest<Run>(entityName: "Run")
     }
