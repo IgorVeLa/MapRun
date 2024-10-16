@@ -34,7 +34,7 @@ struct HistoryView: View {
                 
                 VStack {
                     Text(String(format: "%.2f km", run.distance))
-                    Text(String(format: "%02d:%02d:%02d", Int(run.time / 3600), Int((run.time / 3600) / 60), Int(run.time) % 60))
+                    Text(String(format: "%02d:%02d:%02d", Int(run.time / 3600), Int(run.time / 60) % 60, Int(run.time) % 60))
                     Text(String(format: "%d:%02d /km", run.pace?[0] ?? "err", run.pace?[1] ?? "err"))
                 }
                 .padding(.horizontal)
@@ -55,6 +55,10 @@ struct HistoryView: View {
     }
 }
 
-//#Preview {
-//    HistoryView()
-//}
+#Preview {
+    let context = PersistenceManager.preview.container.viewContext
+    let run = PersistenceManager.getMockRun(context: context)
+    
+    return HistoryView()
+        .environment(\.managedObjectContext, context)
+}
