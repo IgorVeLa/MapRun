@@ -7,13 +7,14 @@ A run tracking app.
 ## Features
 
 ### Live tracking
-![RunningView gif](https://github.com/IgorVeLa/MapRun/blob/main/Assets/RunningView.gif.gif)
+<img src="https://github.com/IgorVeLa/MapRun/blob/main/Assets/RunningView.gif" alt="RunningView" width="200"/>
 
 * Provide a visual of the route that the user is running
 * Real time statistics (time, speed, distance and pace)
 
 ### History
-![HistoryView gif](https://github.com/IgorVeLa/MapRun/blob/main/Assets/HistoryView.gif)
+<img src="https://github.com/IgorVeLa/MapRun/blob/main/Assets/HistoryView.gif" alt="RunningView" width="200"/>
+
 * Save runs
 * View past runs
 * Overview of route and statistics
@@ -31,3 +32,6 @@ A run tracking app.
 * Recommend routes from users using an existing API
 * Overlay route on map
 * Provide directions
+
+### Data Visualistaions
+* Provide graphs for statistics throughout the run
