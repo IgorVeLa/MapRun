@@ -32,3 +32,6 @@ A run tracking app.
 * Recommend routes from users using an existing API
 * Overlay route on map
 * Provide directions
+
+### Data Visualistaions
+* Provide graphs for statistics throughout the run
