@@ -28,6 +28,9 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         // object that receives updates relating to location data
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        // reduce load on main thread to keep stopwatch UI updated accurately
+        locationManager.distanceFilter = 10
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     }
     
     func requestPermission() {

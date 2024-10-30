@@ -19,25 +19,55 @@ struct HistoryView: View {
     
     var body: some View {
         List(runs, id: \.self) { run in
-            HStack {
-                Text(run.title ?? "err")
-                
-                Spacer()
+            VStack {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text((run.dateAdded?.formatted(date: .abbreviated, time: .omitted) ?? ""))
+                        
+                        Spacer()
+                        
+                        Text((run.dateAdded?.formatted(date: .omitted, time: .shortened)) ?? "")
+                    }
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .padding(.top)
+                    
+                    Text(run.title ?? "err")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
                 
                 Map {
                     createRoute(run: run)
                         .stroke(.red, lineWidth: 5)
                 }
-                    .padding(.horizontal)
-                
-                Spacer()
+                .frame(maxWidth: .infinity, minHeight: 300)
                 
                 VStack {
-                    Text(String(format: "%.2f km", run.distance))
-                    Text(String(format: "%02d:%02d:%02d", Int(run.time / 3600), Int(run.time / 60) % 60, Int(run.time) % 60))
-                    Text(String(format: "%d:%02d /km", run.pace?[0] ?? "err", run.pace?[1] ?? "err"))
+                    // frames are to ensure the symbols are aligned by taking equal space of the parent HStack container
+                    HStack {
+                        Image(systemName: "point.bottomleft.filled.forward.to.point.topright.scurvepath")
+                            .frame(maxWidth: .infinity)
+                        Image(systemName: "clock.fill")
+                            .frame(maxWidth: .infinity)
+                        Image(systemName: "figure.run")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .font(.headline)
+                    .padding(.top, 2)
+                    
+                    HStack {
+                        Text(String(format: "%.2f km", run.distance))
+                            .frame(maxWidth: .infinity)
+                        Text(String(format: "%02d:%02d:%02d", Int(run.time / 3600), Int(run.time / 60) % 60, Int(run.time) % 60))
+                            .frame(maxWidth: .infinity)
+                        Text(String(format: "%d:%02d /km", run.pace?[0] ?? "err", run.pace?[1] ?? "err"))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
-                .padding(.horizontal)
+                .padding(.bottom)
             }
         }
     }
@@ -57,7 +87,8 @@ struct HistoryView: View {
 
 #Preview {
     let context = PersistenceManager.preview.container.viewContext
-    let run = PersistenceManager.getMockRun(context: context)
+    _ = PersistenceManager.getMockRun(context: context)
+    _ = PersistenceManager.getMockRun(context: context)
     
     return HistoryView()
         .environment(\.managedObjectContext, context)
