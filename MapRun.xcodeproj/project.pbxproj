@@ -31,15 +31,14 @@
 		781044AC2CADBD87001BF0FA /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		781FB8842C4F1FA20046BBDA /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		781FB8862C53E0990046BBDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		787F31A32CD212BF008A8FD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B031F72C976C6C003D6C7C /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
-		78B031FD2CA30F23003D6C7C /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		78D14C2F2CA6006900FF16AC /* Run.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Run.xcdatamodel; sourceTree = "<group>"; };
 		78D14C6D2CA7682700FF16AC /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		78D14C6F2CA77CB000FF16AC /* Run+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataClass.swift"; sourceTree = "<group>"; };
 		78D14C702CA77CB000FF16AC /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D14C712CA77CB000FF16AC /* LocationPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		78D14C722CA77CB000FF16AC /* LocationPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		78D60D4C2CCB4C120075C904 /* RunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningView.swift; sourceTree = "<group>"; };
 		78D60D4C2CCB4C120075C904 /* RunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningView.swift; sourceTree = "<group>"; };
 		78E8850A2C15FC4D0079A05F /* MapRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78E8850D2C15FC4D0079A05F /* MapRunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRunApp.swift; sourceTree = "<group>"; };
@@ -81,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				781044A92CADB2A1001BF0FA /* Persistence */,
-				781044A92CADB2A1001BF0FA /* Persistence */,
 				78D14C2E2CA6006900FF16AC /* Run.xcdatamodeld */,
 				78D14C792CA8B84A00FF16AC /* Models */,
 			);
@@ -99,21 +97,11 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		78D14C7A2CA8B89800FF16AC /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				78B031FD2CA30F23003D6C7C /* DataController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		78D14C7B2CA8B8CB00FF16AC /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				78D14C6D2CA7682700FF16AC /* HistoryView.swift */,
 				78E8850F2C15FC4D0079A05F /* ContentView.swift */,
-				78D60D4C2CCB4C120075C904 /* RunningView.swift */,
-				78B031F72C976C6C003D6C7C /* SaveRunView.swift */,
 				78D60D4C2CCB4C120075C904 /* RunningView.swift */,
 				78B031F72C976C6C003D6C7C /* SaveRunView.swift */,
 			);
@@ -123,6 +111,7 @@
 		78E885012C15FC4C0079A05F = {
 			isa = PBXGroup;
 			children = (
+				787F31A32CD212BF008A8FD3 /* README.md */,
 				78E8850C2C15FC4D0079A05F /* MapRun */,
 				78E8850B2C15FC4D0079A05F /* Products */,
 			);
@@ -139,8 +128,6 @@
 		78E8850C2C15FC4D0079A05F /* MapRun */ = {
 			isa = PBXGroup;
 			children = (
-				78E8850D2C15FC4D0079A05F /* MapRunApp.swift */,
-				78D14C7B2CA8B8CB00FF16AC /* Views */,
 				78E8850D2C15FC4D0079A05F /* MapRunApp.swift */,
 				78D14C7B2CA8B8CB00FF16AC /* Views */,
 				78D14C782CA8B83A00FF16AC /* Core Data */,
