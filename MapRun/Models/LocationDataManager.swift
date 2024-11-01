@@ -5,9 +5,10 @@
 //  Created by Igor L on 12/06/2024.
 //
 
-import Foundation
 import CoreLocation
+import Foundation
 import _MapKit_SwiftUI
+import SwiftUI
 
 @Observable
 class LocationDataManager: NSObject, CLLocationManagerDelegate {
@@ -17,8 +18,26 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var authorisationStatus: CLAuthorizationStatus?
     
-    var locations: [CLLocation] = []
+    // add binding to isShowingLocationAlert for alert modifier
+    var isShowingLocationDeniedAlert = false
+    var isShowingLocationInUseAlert = false
+    var locationDeniedAlertBinding: Binding<Bool> {
+        Binding(
+            get: { self.isShowingLocationDeniedAlert },
+            set: { self.isShowingLocationDeniedAlert = $0 }
+        )
+    }
+    var locationInUseAlertBinding: Binding<Bool> {
+        Binding(
+            get: { self.isShowingLocationInUseAlert },
+            set: { self.isShowingLocationInUseAlert = $0 }
+        )
+    }
+
+    var locationServicesAvailability = false
+    
     var totalTimeInS: Double = 0.0
+    var locations: [CLLocation] = []
     var currentDist = 0.0
     var currentSpeed = 0.0
     var currentPace = [0, 0]
@@ -28,6 +47,7 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         // object that receives updates relating to location data
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.allowsBackgroundLocationUpdates = true
         // reduce load on main thread to keep stopwatch UI updated accurately
         locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -41,23 +61,41 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
             // location services are available
+            case .authorizedAlways:
+                authorisationStatus = .authorizedAlways
+                print("location services authorised always")
+                locationServicesAvailability = true
+                //locationManager.requestLocation()
+                break
+            // location services when in use
             case .authorizedWhenInUse:
                 authorisationStatus = .authorizedWhenInUse
-                locationManager.requestLocation()
-                break
+                print("location services authorised when in use")
+                locationServicesAvailability = true
+                // inform user
+                isShowingLocationInUseAlert.toggle()
             // location services are unavailable
             case .restricted:
                 authorisationStatus = .restricted
+                print("location services restricted")
+                locationServicesAvailability = false
+                locationManager.requestLocation()
                 break
             case .denied:
                 authorisationStatus = .denied
+                print("location services denied")
+                locationServicesAvailability = false
+                // inform user
+                isShowingLocationDeniedAlert.toggle()
                 break
             // location services are unknown
             case .notDetermined:
                 authorisationStatus = .notDetermined
-                manager.requestWhenInUseAuthorization()
+                locationServicesAvailability = false
+            print("location services not determined")
+                locationManager.requestLocation()
+                locationServicesAvailability = false
                 break
-            
             default:
                 break
         }

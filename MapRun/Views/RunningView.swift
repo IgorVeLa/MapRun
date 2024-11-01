@@ -27,7 +27,6 @@ struct RunningView: View {
                     locationDataManager.drawRoute(locations: locationDataManager.locations)
                         .stroke(.red, lineWidth: 5)
                 }
-                .edgesIgnoringSafeArea(.all)
                 .mapStyle(.standard(elevation: .realistic))
                 .mapControls {
                     MapUserLocationButton()
@@ -47,6 +46,15 @@ struct RunningView: View {
                                     .opacity(1)
                             }
                         )
+                }
+            }
+            .overlay {
+                if locationDataManager.locationServicesAvailability == false {
+                    ContentUnavailableView("Location Services are disabled", systemImage: "location.slash", description: Text("Ensure they are enabled in settings. \n Settings > Privacy > Location Services > MapRun > Always"))
+                        .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color.white.opacity(0.7))
+                            )
                 }
             }
         }
@@ -141,30 +149,11 @@ struct ExtractedView: View {
             if isShowingStopwatch {
                 Text("\(String(format: "%02d", stopwatchHour)):\(String(format: "%02d", stopwatchMinute)):\(String(format: "%02d", stopwatchSecond))")
                     .onReceive(timer, perform: { _ in
-                        print("missippi")
                         locationDataManager.totalTimeInS += 1
-                        
-                        print(locationDataManager.totalTimeInS)
-                        
                         stopwatchHour = Int(locationDataManager.totalTimeInS / 3600)
                         stopwatchMinute = Int(locationDataManager.totalTimeInS / 60) % 60
                         stopwatchSecond = Int(locationDataManager.totalTimeInS) % 60
                     })
-                // update stopwatch if user is in background by calculating difference
-                    .onChange(of: scenePhase) { oldPhase, newPhase in
-                        if newPhase == .background {
-                            print("background")
-                            dateExiting = Date()
-                        } else if newPhase == .active {
-                            let currentCalendar = Calendar.current
-                            
-                            if let dateExiting {
-                                let difference = currentCalendar.dateComponents([.second], from: dateExiting, to: Date())
-                                
-                                locationDataManager.totalTimeInS += Double(difference.second!)
-                            }
-                        }
-                    }
             }
         }
     }

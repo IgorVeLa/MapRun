@@ -70,6 +70,15 @@ struct HistoryView: View {
                 .padding(.bottom)
             }
         }
+        .overlay {
+            if runs.isEmpty {
+                ContentUnavailableView("No runs completed", systemImage: "text.page.slash.fill", description: Text("Tap the run icon and begin!"))
+                    .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.white.opacity(0.7))
+                        )
+            }
+        }
     }
     
     func createRoute(run: Run) -> MapPolyline {

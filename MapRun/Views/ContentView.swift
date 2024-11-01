@@ -29,6 +29,16 @@ struct ContentView: View {
         .onAppear {
             locationDataManager.requestPermission()
         }
+        .alert("Location services are turned off", isPresented: locationDataManager.locationDeniedAlertBinding) {
+            Button("OK") {}
+        } message: {
+            Text("Please manually turn them on by going to Settings > Privacy > Location Services > MapRun > Always")
+        }
+        .alert("WARNING", isPresented: locationDataManager.locationInUseAlertBinding) {
+            Button("OK") {}
+        } message: {
+            Text("Not allowing location services to be on always may lead to inaccurate tracking. \n\n Please manually turn them on by going to Settings > Privacy > Location Services > MapRun > Always")
+        }
     }
 }
 

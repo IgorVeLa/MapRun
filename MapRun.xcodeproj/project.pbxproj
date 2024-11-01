@@ -11,6 +11,7 @@
 		781044AB2CADB2BA001BF0FA /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781044AA2CADB2BA001BF0FA /* PersistenceManager.swift */; };
 		781044AD2CADBD87001BF0FA /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781044AC2CADBD87001BF0FA /* MockData.swift */; };
 		781FB8852C4F1FA20046BBDA /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FB8842C4F1FA20046BBDA /* LocationDataManager.swift */; };
+		787F31A52CD2D455008A8FD3 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787F31A42CD2D455008A8FD3 /* TimeManager.swift */; };
 		78B031F82C976C6C003D6C7C /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B031F72C976C6C003D6C7C /* SaveRunView.swift */; };
 		78D14C302CA6006900FF16AC /* Run.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78D14C2E2CA6006900FF16AC /* Run.xcdatamodeld */; };
 		78D14C6E2CA7682700FF16AC /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D14C6D2CA7682700FF16AC /* HistoryView.swift */; };
@@ -32,6 +33,7 @@
 		781FB8842C4F1FA20046BBDA /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		781FB8862C53E0990046BBDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		787F31A32CD212BF008A8FD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		787F31A42CD2D455008A8FD3 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		78B031F72C976C6C003D6C7C /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
 		78D14C2F2CA6006900FF16AC /* Run.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Run.xcdatamodel; sourceTree = "<group>"; };
 		78D14C6D2CA7682700FF16AC /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				781FB8842C4F1FA20046BBDA /* LocationDataManager.swift */,
+				787F31A42CD2D455008A8FD3 /* TimeManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,7 +178,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					78E885092C15FC4C0079A05F = {
 						CreatedOnToolsVersion = 15.4;
@@ -222,20 +225,12 @@
 				781044AD2CADBD87001BF0FA /* MockData.swift in Sources */,
 				78D14C742CA77CB000FF16AC /* Run+CoreDataProperties.swift in Sources */,
 				78D14C752CA77CB000FF16AC /* LocationPoint+CoreDataClass.swift in Sources */,
-				78D14C302CA6006900FF16AC /* Run.xcdatamodeld in Sources */,
-				78D14C732CA77CB000FF16AC /* Run+CoreDataClass.swift in Sources */,
-				781044AD2CADBD87001BF0FA /* MockData.swift in Sources */,
-				78D14C742CA77CB000FF16AC /* Run+CoreDataProperties.swift in Sources */,
-				78D14C752CA77CB000FF16AC /* LocationPoint+CoreDataClass.swift in Sources */,
-				781044AB2CADB2BA001BF0FA /* PersistenceManager.swift in Sources */,
 				781044AB2CADB2BA001BF0FA /* PersistenceManager.swift in Sources */,
 				78D14C762CA77CB000FF16AC /* LocationPoint+CoreDataProperties.swift in Sources */,
 				78E885102C15FC4D0079A05F /* ContentView.swift in Sources */,
+				787F31A52CD2D455008A8FD3 /* TimeManager.swift in Sources */,
 				78E8850E2C15FC4D0079A05F /* MapRunApp.swift in Sources */,
 				78B031F82C976C6C003D6C7C /* SaveRunView.swift in Sources */,
-				78D60D4D2CCB4C120075C904 /* RunningView.swift in Sources */,
-				78D14C6E2CA7682700FF16AC /* HistoryView.swift in Sources */,
-				780C678A2CBF6E1700AF5E61 /* Methods.swift in Sources */,
 				78D60D4D2CCB4C120075C904 /* RunningView.swift in Sources */,
 				78D14C6E2CA7682700FF16AC /* HistoryView.swift in Sources */,
 				780C678A2CBF6E1700AF5E61 /* Methods.swift in Sources */,
