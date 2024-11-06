@@ -73,16 +73,6 @@ struct RunningPlayView: View {
             }
         }
     }
-    
-    func resetData() {
-        locationDataManager.locations = []
-        locationDataManager.currentPace = [0, 0]
-        locationDataManager.currentSpeed = 0
-        locationDataManager.currentDist = 0
-        timeManager.totalTimeInS = 0
-        
-        print("data reset")
-    }
 }
 
 #Preview {

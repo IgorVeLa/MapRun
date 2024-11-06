@@ -23,7 +23,6 @@ extension RunningPlayView {
         var isShowingPolyLine = false
         var isShowingStopwatch = false
         var isShowingSaveSheet = false
-        var isShowingHistorySheet = false
         let timer = Timer.publish(every: 1, tolerance: 0.5, on: .main, in: .common).autoconnect()
         
         var totalDistance = 0.0
@@ -31,5 +30,15 @@ extension RunningPlayView {
         var pace = [0, 0]
         
         var currentRun: Run? = nil
+    }
+    
+    func resetData() {
+        locationDataManager.locations = []
+        locationDataManager.currentPace = [0, 0]
+        locationDataManager.currentSpeed = 0
+        locationDataManager.currentDist = 0
+        timeManager.totalTimeInS = 0
+        
+        print("data reset")
     }
 }
