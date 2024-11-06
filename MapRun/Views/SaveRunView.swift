@@ -13,91 +13,57 @@ struct SaveRunView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var context
     @Environment(LocationDataManager.self) var locationDataManager
+    @Environment(TimeManager.self) var timeManager
     
-    @State var isShowingPolyline = true
-    @State var runTitle = ""
-    
-    @State var run: Run
-    var locations: [CLLocation]
-    
-    var hours: Int
-    var minutes: Int
-    var seconds: Int
+    @State var viewModel: ViewModel
     
     init(run: Run, locations: [CLLocation]) {
-        self.run = run
-        self.hours = Int(run.time / 3600)
-        self.minutes = Int(run.time / 60) % 60
-        self.seconds = Int(run.time) % 60
-        self.locations = locations
+        self.viewModel = ViewModel(run: run, locations: locations)
     }
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                TextField("Title", text: $runTitle)
+                TextField("Title", text: $viewModel.runTitle)
                 Image(systemName: "pencil")
             }
             .font(.title)
-            
-            Text(String(format: "%02d:%02d:%02d", hours, minutes, seconds))
+
+            Text(timeManager.formattedUnits)
                 .font(.title3)
             
             HStack {
-                Text(String(format: "%.2f km", run.distance))
-                Text(String(format: "%d:%02d /km", run.pace?[0] ?? 0, run.pace?[1] ?? 0))
-                Text(String(format: "%.2f m/s", run.speed))
+                Text(String(format: "%.2f km", viewModel.run.distance))
+                Text(String(format: "%d:%02d /km", viewModel.run.pace?[0] ?? 0, viewModel.run.pace?[1] ?? 0))
+                Text(String(format: "%.2f m/s", viewModel.run.speed))
                 Spacer()
                 Button {
-                    isShowingPolyline.toggle()
-                    print("isShowingPolyline: \(isShowingPolyline)")
+                    viewModel.isShowingPolyline.toggle()
+                    print("isShowingPolyline: \(viewModel.isShowingPolyline)")
                 } label: {
-                    Image(systemName: isShowingPolyline ? "flag.fill" : "flag")
+                    Image(systemName: viewModel.isShowingPolyline ? "flag.fill" : "flag")
                 }
             }
             .font(.title3)
             
             Map {
-                if isShowingPolyline {
-                    locationDataManager.drawRoute(locations: locations)
+                if viewModel.isShowingPolyline {
+                    locationDataManager.drawRoute(locations: viewModel.locations)
                         .stroke(.red, lineWidth: 5)
                 }
             }
             
             Button("Save") {
-                saveRun(run: run, locations: locations)
+                viewModel.saveRun(run: viewModel.run, locations: viewModel.locations)
+                dismiss()
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .font(.title)
         }
+        .onAppear {
+            timeManager.totalTimeInS = viewModel.run.time
+        }
         .padding()
-    }
-    
-    func saveRun(run: Run, locations: [CLLocation]) {
-        guard context.hasChanges else { return }
-        
-        // put Run in context
-        run.title = self.runTitle
-        
-        // create LocationPoint for each CLLocation
-        for location in locations {
-            let locationPoint = LocationPoint(context: context)
-            locationPoint.orderId = Int64(locations.firstIndex(of: location)!)
-            locationPoint.latitude = location.coordinate.latitude
-            locationPoint.longitude = location.coordinate.longitude
-            // establish relationship
-            run.addToLocations(locationPoint)
-        }
-        
-        // save to context
-        do {
-            try context.save()
-            print("Run saved to core data")
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        dismiss()
     }
 }
 
@@ -108,6 +74,7 @@ struct SaveRunView: View {
     let locations = PersistenceManager.createMockLocations()
 
     return SaveRunView(run: run, locations: locations)
-        .environment(LocationDataManager.shared)
+        .environment(LocationDataManager())
+        .environment(TimeManager())
         .environment(\.managedObjectContext, context)
 }

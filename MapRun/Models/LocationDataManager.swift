@@ -48,8 +48,8 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.allowsBackgroundLocationUpdates = true
         // reduce load on main thread to keep stopwatch UI updated accurately
-        //locationManager.distanceFilter = 10
-        //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = 3
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
     }
     
     func requestPermission() {
