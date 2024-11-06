@@ -14,6 +14,7 @@ struct MapRunApp: App {
             ContentView()
                 .environment(\.managedObjectContext, PersistenceManager.shared.container.viewContext)
                 .environment(LocationDataManager.shared)
+                .environment(TimeManager.shared)
         }
     }
 }
