@@ -36,7 +36,6 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
 
     var locationServicesAvailability = false
     
-    var totalTimeInS: Double = 0.0
     var locations: [CLLocation] = []
     var currentDist = 0.0
     var currentSpeed = 0.0
@@ -49,8 +48,8 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.allowsBackgroundLocationUpdates = true
         // reduce load on main thread to keep stopwatch UI updated accurately
-        locationManager.distanceFilter = 10
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        //locationManager.distanceFilter = 10
+        //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     }
     
     func requestPermission() {
@@ -124,7 +123,7 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
         }
         currentDist = measureTotalDistanceInKm(locations: self.locations)
         currentSpeed = measureSpeed(locations: self.locations)
-        currentPace = measurePace(locations: self.locations, totalTime: totalTimeInS)
+        currentPace = measurePace(locations: self.locations, totalTime: TimeManager.shared.totalTimeInS)
         
         // add locations from delegate to class
         self.locations.append(contentsOf: locations)
