@@ -137,8 +137,7 @@ class LocationDataManager: NSObject, CLLocationManagerDelegate {
 
 // methods for calculating statistics
 extension LocationDataManager {
-    // draw route
-    func drawRoute(locations: [CLLocation]) -> MapPolyline {
+    func drawRouteFromCLLocation(locations: [CLLocation]) -> MapPolyline {
         guard locations.last != nil else {
             print("No locations found")
             return MapPolyline(coordinates: [])
@@ -149,6 +148,23 @@ extension LocationDataManager {
         // create MapPolyLine
         let routeLine = MapPolyline(coordinates: coordinates, contourStyle: .straight)
         return routeLine
+    }
+    
+    func drawRouteFromSavedRun(run: Run) -> MapPolyline {
+        guard !(run.locations?.count == 0) else {
+            print("No run locations available")
+            return MapPolyline(coordinates: [])
+        }
+        
+        var coords = [CLLocationCoordinate2D]()
+        
+        let locationsArr = run.locations!.allObjects as! [LocationPoint]
+        
+        for location in locationsArr.sorted() {
+            coords.append(location.cllocationcoord())
+        }
+        
+        return MapPolyline(coordinates: coords)
     }
     
     func measureTotalDistanceInKm(locations: [CLLocation]) -> Double {
@@ -214,6 +230,10 @@ extension LocationDataManager {
     }
     
     func toCLLCoordinates(locations: [CLLocation]) -> [CLLocationCoordinate2D] {
+        guard locations.last != nil else {
+            print("No locations found")
+            return []
+        }
         var coordinates = [CLLocationCoordinate2D]()
         
         for location in locations {
@@ -225,6 +245,11 @@ extension LocationDataManager {
     }
     
     func toCLLocations(coords: [CLLocationCoordinate2D]) -> [CLLocation] {
+        guard coords.last != nil else {
+            print("No coordinates found")
+            return []
+        }
+        
         var locations = [CLLocation]()
         
         for coord in coords {

@@ -12,6 +12,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @Environment(\.managedObjectContext) var context
+    @Environment(LocationDataManager.self) var locationDataManager
 
     @FetchRequest(
             fetchRequest: Run.noPendingChangesRequest()
@@ -38,7 +39,7 @@ struct HistoryView: View {
                 }
                 
                 Map {
-                    createRoute(run: run)
+                    locationDataManager.drawRouteFromSavedRun(run: run)
                         .stroke(.red, lineWidth: 5)
                 }
                 .frame(maxWidth: .infinity, minHeight: 300)
@@ -80,18 +81,6 @@ struct HistoryView: View {
             }
         }
     }
-    
-    func createRoute(run: Run) -> MapPolyline {
-        var coords = [CLLocationCoordinate2D]()
-        
-        let locationsArr = run.locations!.allObjects as! [LocationPoint]
-        
-        for location in locationsArr.sorted() {
-            coords.append(location.cllocationcoord())
-        }
-        
-        return MapPolyline(coordinates: coords)
-    }
 }
 
 #Preview {
@@ -101,4 +90,6 @@ struct HistoryView: View {
     
     return HistoryView()
         .environment(\.managedObjectContext, context)
+        .environment(LocationDataManager())
+        .environment(TimeManager())
 }
