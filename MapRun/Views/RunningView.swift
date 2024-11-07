@@ -24,7 +24,7 @@ struct RunningView: View {
                     // shows the user location when zoomed out
                     UserAnnotation()
     
-                    locationDataManager.drawRoute(locations: locationDataManager.locations)
+                    locationDataManager.drawRouteFromCLLocation(locations: locationDataManager.locations)
                         .stroke(.red, lineWidth: 5)
                 }
                 .mapStyle(.standard(elevation: .realistic))
@@ -64,8 +64,8 @@ struct RunningView: View {
     let context = PersistenceManager.preview.container.viewContext
     
     return RunningView()
+        .environment(\.managedObjectContext, context)
         .environment(LocationDataManager())
         .environment(TimeManager())
-        .environment(\.managedObjectContext, context)
 }
 

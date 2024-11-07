@@ -43,6 +43,10 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    let context = PersistenceManager.preview.container.viewContext
+    
+    return ContentView()
+        .environment(\.managedObjectContext, context)
         .environment(LocationDataManager())
+        .environment(TimeManager())
 }

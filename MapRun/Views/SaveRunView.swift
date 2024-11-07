@@ -48,7 +48,7 @@ struct SaveRunView: View {
             
             Map {
                 if viewModel.isShowingPolyline {
-                    locationDataManager.drawRoute(locations: viewModel.locations)
+                    locationDataManager.drawRouteFromCLLocation(locations: viewModel.locations)
                         .stroke(.red, lineWidth: 5)
                 }
             }
